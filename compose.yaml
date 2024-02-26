@@ -1,0 +1,53 @@
+version: "3"
+
+services:
+  ts-express-node:
+    container_name: ts-express-node
+    image: "node:20"
+    user: "node"
+    working_dir: /home/node/app
+    env_file:
+      - .env
+    volumes:
+      - ./:/home/node/app
+    ports: 
+      - "8000:8000"
+    command: >
+      bash -c "npm install
+      && npm run migrate
+      && npm run seed
+      && npm run dev"
+
+  content-api-postgres:
+    image: postgres:16.2
+    hostname: content-api-postgres
+    container_name: content-api-postgres
+    ports:
+      - 5433:5433
+    environment:
+      - POSTGRES_USER=${DB_USERNAME} 
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    restart: on-failure
+    volumes:
+      - content-api-data:/var/lib/postgresql/data
+      - ./database_dumps/:/docker-entrypoint-initdb.d/
+
+  content-api-postgres-test:
+    image: postgres:16.2
+    hostname: content-api-postgres-test
+    container_name: content-api-postgres-test
+    ports:
+      - 5434:5434
+    environment:
+      - POSTGRES_USER=${TEST_DB_USERNAME} 
+      - POSTGRES_PASSWORD=${TEST_DB_PASSWORD}
+      - POSTGRES_DB=${TEST_DB_NAME}
+    restart: on-failure
+    volumes:
+      - content-api-data-test:/var/lib/postgresql/data
+      - ./database_dumps/:/docker-entrypoint-initdb.d/
+
+volumes:
+  content-api-data:
+  content-api-data-test:
