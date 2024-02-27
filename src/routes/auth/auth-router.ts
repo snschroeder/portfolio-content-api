@@ -1,6 +1,11 @@
 import express from 'express'
 import xss from 'xss'
-import type { RequestHandler } from 'express'
+import type {
+  Request,
+  Response,
+  NextFunction,
+  RequestHandler
+} from 'express'
 import type { Knex } from 'knex'
 
 import { AuthService } from './auth-service'
@@ -10,7 +15,7 @@ const jsonParser = express.json()
 
 authRouter
   .route('/')
-  .post(jsonParser, (async (req, res, next) => {
+  .post(jsonParser, (async (req: Request, res: Response, next: NextFunction) => {
     let email: string = req.body.email
     let password: string = req.body.password
 
@@ -42,3 +47,5 @@ authRouter
       next(error)
     }
   }) as RequestHandler)
+
+export default authRouter

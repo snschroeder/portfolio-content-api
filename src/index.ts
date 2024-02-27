@@ -5,6 +5,7 @@ import helmet from 'helmet'
 import 'dotenv/config'
 
 import userRouter from './routes/user/user-router'
+import authRouter from './routes/auth/auth-router'
 import errorHandler from './error-handler/error-handler'
 import { ServerError } from './error-handler/ServerError'
 
@@ -25,6 +26,7 @@ app.set('db', knex)
 // =================== //
 
 app.use('/user', userRouter)
+app.use('/auth', authRouter)
 
 // =================== //
 // Error Handling      //
