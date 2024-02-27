@@ -6,7 +6,7 @@ export async function up (knex: Knex): Promise<void> {
       table.uuid('id').defaultTo(knex.fn.uuid())
       table.string('img_link')
       table.string('header').notNullable()
-      table.string('body').notNullable()
+      table.string('body', 2500).notNullable()
     })
 }
 
