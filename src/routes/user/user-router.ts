@@ -7,7 +7,7 @@ import type {
 } from 'express'
 import type { Knex } from 'knex'
 
-import { UserService } from './user-service'
+import UserService from './user-service'
 
 const userRouter = express.Router()
 const jsonParser = express.json()

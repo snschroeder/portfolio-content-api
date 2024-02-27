@@ -1,6 +1,6 @@
 import type { Knex } from 'knex'
 
-export const UserService = {
+const UserService = {
   getUser: (db: Knex, id: string) => db('user')
     .select(
       'id',
@@ -12,3 +12,5 @@ export const UserService = {
   createNewUser: (db: Knex, email: string, password: string) => db('user')
     .insert({ email, password }, ['id', 'email'])
 }
+
+export default UserService

@@ -29,4 +29,4 @@ const AuthService = {
   verifyJWT: (token: string) => jwt.verify(token, JWT_SECRET)
 }
 
-export { AuthService }
+export default AuthService
