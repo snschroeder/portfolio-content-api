@@ -9,7 +9,15 @@ const AboutService = {
       'body'
     )
     .where({ id })
-    .first()
+    .first(),
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  putAboutData: (db: Knex, id: string, img_link: string, header: string, body: string) => db('about')
+    .where({ id })
+    .update({
+      img_link,
+      header,
+      body
+    }, ['id', 'img_link', 'header', 'body'])
 }
 
 export default AboutService
