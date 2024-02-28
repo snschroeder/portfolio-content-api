@@ -30,7 +30,6 @@ aboutRouter
     let imgLink: string = req.body.imgLink
     let header: string = req.body.header
     let body: string = req.body.body
-
     imgLink = xss(imgLink)
     header = xss(header)
     body = xss(body)
@@ -38,9 +37,29 @@ aboutRouter
     if (imgLink === '' || header === '' || body === '') {
       return res.status(400).json('All fields are required')
     }
-
     try {
       const updatedAboutData = await AboutService.putAboutData(req.app.get('db') as Knex, aboutId, imgLink, header, body)
+      return res.status(201).json(updatedAboutData)
+    } catch (error) {
+      next(error)
+    }
+  }) as RequestHandler)
+
+aboutRouter
+  .route('/')
+  .post(jsonParser, (async (req: Request, res: Response, next: NextFunction) => {
+    let imgLink: string = req.body.imgLink
+    let header: string = req.body.header
+    let body: string = req.body.body
+    imgLink = xss(imgLink)
+    header = xss(header)
+    body = xss(body)
+
+    if (imgLink === '' || header === '' || body === '') {
+      return res.status(400).json('All fields are required')
+    }
+    try {
+      const updatedAboutData = await AboutService.postAboutData(req.app.get('db') as Knex, imgLink, header, body)
       return res.status(201).json(updatedAboutData)
     } catch (error) {
       next(error)

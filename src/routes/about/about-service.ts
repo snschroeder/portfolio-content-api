@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import type { Knex } from 'knex'
 
 const AboutService = {
@@ -10,10 +11,17 @@ const AboutService = {
     )
     .where({ id })
     .first(),
-  // eslint-disable-next-line @typescript-eslint/naming-convention
+
   putAboutData: (db: Knex, id: string, img_link: string, header: string, body: string) => db('about')
     .where({ id })
     .update({
+      img_link,
+      header,
+      body
+    }, ['id', 'img_link', 'header', 'body']),
+
+  postAboutData: (db: Knex, img_link: string, header: string, body: string) => db('about')
+    .insert({
       img_link,
       header,
       body
