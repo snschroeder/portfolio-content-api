@@ -45,6 +45,17 @@ aboutRouter
     }
   }) as RequestHandler)
 
+  .delete((async (req: Request, res: Response, next: NextFunction) => {
+    const { aboutId } = req.params
+    console.log(aboutId)
+    try {
+      await AboutService.deleteAbout(req.app.get('db') as Knex, aboutId)
+      return res.status(204).send()
+    } catch (error) {
+      next(error)
+    }
+  }) as RequestHandler)
+
 aboutRouter
   .route('/')
   .post(jsonParser, (async (req: Request, res: Response, next: NextFunction) => {

@@ -25,7 +25,11 @@ const AboutService = {
       img_link,
       header,
       body
-    }, ['id', 'img_link', 'header', 'body'])
+    }, ['id', 'img_link', 'header', 'body']),
+
+  deleteAbout: (db: Knex, id: string) => db('about')
+    .where({ id })
+    .del()
 }
 
 export default AboutService
