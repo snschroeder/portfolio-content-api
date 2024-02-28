@@ -1,4 +1,5 @@
 import express from 'express'
+import xss from 'xss'
 import type {
   Request,
   Response,
@@ -26,9 +27,17 @@ aboutRouter
 
   .put(jsonParser, (async (req: Request, res: Response, next: NextFunction) => {
     const { aboutId } = req.params
-    const imgLink: string = req.body.imgLink
-    const header: string = req.body.header
-    const body: string = req.body.body
+    let imgLink: string = req.body.imgLink
+    let header: string = req.body.header
+    let body: string = req.body.body
+
+    imgLink = xss(imgLink)
+    header = xss(header)
+    body = xss(body)
+
+    if (imgLink === '' || header === '' || body === '') {
+      return res.status(400).json('All fields are required')
+    }
 
     try {
       const updatedAboutData = await AboutService.putAboutData(req.app.get('db') as Knex, aboutId, imgLink, header, body)

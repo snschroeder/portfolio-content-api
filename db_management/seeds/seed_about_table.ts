@@ -3,7 +3,7 @@ import { type Knex } from 'knex'
 const aboutSeed = [
   {
     id: '84e649dd-bdf1-45d5-a35e-c855752716cd',
-    img_link: 'http://placekitten.com/g/300/300',
+    img_link: 'profile-pic-climbing.jpg',
     header: 'About me',
     body: `I have been working professionally as a full stack developer since 2019, with a focus on React, TypeScript, Node.js, Express.js, and both PostgreSQL and MySQL. I'm also experienced with AWS, Wordpress and PHP, and Shopify and Liquid.
     
