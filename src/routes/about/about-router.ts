@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import express from 'express'
 import xss from 'xss'
+import { protectWithJWT } from '../../middleware/auth'
 import type {
   Request,
   Response,
@@ -24,7 +26,7 @@ aboutRouter
       next(error)
     }
   }) as RequestHandler)
-
+  .all(protectWithJWT)
   .put(jsonParser, (async (req: Request, res: Response, next: NextFunction) => {
     const { aboutId } = req.params
     let imgLink: string = req.body.imgLink
@@ -35,11 +37,12 @@ aboutRouter
     body = xss(body)
 
     if (imgLink === '' || header === '' || body === '') {
-      return res.status(400).json('All fields are required')
+      res.status(400).json('All fields are required')
+      return
     }
     try {
       const updatedAboutData = await AboutService.putAboutData(req.app.get('db') as Knex, aboutId, imgLink, header, body)
-      return res.status(201).json(updatedAboutData)
+      res.status(201).json(updatedAboutData)
     } catch (error) {
       next(error)
     }
@@ -50,7 +53,7 @@ aboutRouter
     console.log(aboutId)
     try {
       await AboutService.deleteAbout(req.app.get('db') as Knex, aboutId)
-      return res.status(204).send()
+      res.status(204).send()
     } catch (error) {
       next(error)
     }
@@ -58,6 +61,7 @@ aboutRouter
 
 aboutRouter
   .route('/')
+  .all(protectWithJWT)
   .post(jsonParser, (async (req: Request, res: Response, next: NextFunction) => {
     let imgLink: string = req.body.imgLink
     let header: string = req.body.header
@@ -67,11 +71,12 @@ aboutRouter
     body = xss(body)
 
     if (imgLink === '' || header === '' || body === '') {
-      return res.status(400).json('All fields are required')
+      res.status(400).json('All fields are required')
+      return
     }
     try {
       const updatedAboutData = await AboutService.postAboutData(req.app.get('db') as Knex, imgLink, header, body)
-      return res.status(201).json(updatedAboutData)
+      res.status(201).json(updatedAboutData)
     } catch (error) {
       next(error)
     }
