@@ -7,6 +7,8 @@ import 'dotenv/config'
 import userRouter from './routes/user/user-router'
 import authRouter from './routes/auth/auth-router'
 import aboutRouter from './routes/about/about-router'
+import galleryRouter from './routes/gallery/gallery-router'
+
 import errorHandler from './error-handler/error-handler'
 import { ServerError } from './error-handler/ServerError'
 
@@ -29,6 +31,7 @@ app.set('db', knex)
 app.use('/user', userRouter)
 app.use('/auth', authRouter)
 app.use('/about', aboutRouter)
+app.use('/gallery', galleryRouter)
 
 // =================== //
 // Error Handling      //

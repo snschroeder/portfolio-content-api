@@ -18,7 +18,7 @@ userRouter
     const { userId } = req.params
     try {
       const userData = await UserService.getUser(req.app.get('db') as Knex, userId)
-      return res.status(200).json(userData)
+      res.status(200).json(userData)
     } catch (error) {
       next(error)
     }
@@ -32,7 +32,7 @@ userRouter
     try {
       if (email !== '' && password !== '') {
         const newUserData = await UserService.createNewUser(req.app.get('db') as Knex, email, password)
-        return res.status(201).json(newUserData)
+        res.status(201).json(newUserData)
       }
     } catch (error) {
       next(error)
