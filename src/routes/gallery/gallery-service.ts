@@ -1,4 +1,5 @@
 import type { Knex } from 'knex'
+import type { GalleryItem } from '../../../types'
 
 const GalleryService = {
   getGalleryItem: (db: Knex, id: string) => db('gallery')
@@ -11,6 +12,18 @@ const GalleryService = {
       'stack'
     )
     .where({ id })
+    .first(),
+
+  updateGalleryItem: (db: Knex, id: string, galleryItem: GalleryItem) => db('gallery')
+    .where({ id })
+    .update(galleryItem, [
+      'id',
+      'title',
+      'img_link',
+      'tagline',
+      'description',
+      'stack'
+    ])
 }
 
 export default GalleryService

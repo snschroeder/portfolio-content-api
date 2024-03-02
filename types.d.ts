@@ -3,6 +3,14 @@ export interface User {
   email: string
 }
 
+export interface GalleryItem {
+  title: string
+  img_link: string
+  tagline: string
+  description: string
+  stack: string
+}
+
 declare global {
   namespace Express {
     interface Request {
