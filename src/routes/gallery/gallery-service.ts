@@ -27,7 +27,17 @@ const GalleryService = {
 
   deleteGalleryItem: (db: Knex, id: string) => db('gallery')
     .where({ id })
-    .del()
+    .del(),
+
+  postGalleryItem: (db: Knex, galleryItem: GalleryItem) => db('gallery')
+    .insert(galleryItem, [
+      'id',
+      'title',
+      'img_link',
+      'tagline',
+      'description',
+      'stack'
+    ])
 }
 
 export default GalleryService

@@ -64,4 +64,31 @@ galleryRouter
     }
   }) as RequestHandler)
 
+galleryRouter
+  .route('/')
+  .post(jsonParser, (async (req: Request, res: Response, next: NextFunction) => {
+    const galleryItem: GalleryItem = {
+      title: req.body.title,
+      img_link: req.body.imgLink,
+      tagline: req.body.tagline,
+      description: req.body.description,
+      stack: req.body.stack
+    }
+    let key: keyof GalleryItem
+    for (key in galleryItem) {
+      galleryItem[key] = xss(galleryItem[key])
+      if (galleryItem[key] === '') {
+        res.status(400).json('All fields are required')
+        return
+      }
+    }
+
+    try {
+      const postedGalleryItem = await GalleryService.postGalleryItem(req.app.get('db') as Knex, galleryItem)
+      res.status(201).json(postedGalleryItem)
+    } catch (error) {
+      next(error)
+    }
+  }) as RequestHandler)
+
 export default galleryRouter
