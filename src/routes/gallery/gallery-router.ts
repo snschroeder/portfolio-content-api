@@ -27,7 +27,7 @@ galleryRouter
   }) as RequestHandler)
 
   .put(jsonParser, (async (req: Request, res: Response, next: NextFunction) => {
-    const { gallyerItemId } = req.params
+    const { galleryItemId } = req.params
 
     const galleryItem: GalleryItem = {
       title: req.body.title,
@@ -36,21 +36,19 @@ galleryRouter
       description: req.body.description,
       stack: req.body.stack
     }
-
     let key: keyof GalleryItem
     for (key in galleryItem) {
       galleryItem[key] = xss(galleryItem[key])
     }
-    console.log(galleryItem)
 
     try {
       const updatedGalleryItem = await GalleryService.updateGalleryItem(
         req.app.get('db') as Knex,
-        gallyerItemId,
+        galleryItemId,
         galleryItem
       )
       console.log(updatedGalleryItem)
-      res.status(201).json('updatedGalleryItem')
+      res.status(201).json(updatedGalleryItem)
     } catch (error) {
       next(error)
     }
