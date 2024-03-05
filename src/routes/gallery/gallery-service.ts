@@ -23,7 +23,11 @@ const GalleryService = {
       'tagline',
       'description',
       'stack'
-    ])
+    ]),
+
+  deleteGalleryItem: (db: Knex, id: string) => db('gallery')
+    .where({ id })
+    .del()
 }
 
 export default GalleryService

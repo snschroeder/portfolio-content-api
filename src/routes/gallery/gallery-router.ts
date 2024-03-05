@@ -54,4 +54,14 @@ galleryRouter
     }
   }) as RequestHandler)
 
+  .delete((async (req: Request, res: Response, next: NextFunction) => {
+    const { galleryItemId } = req.params
+    try {
+      await GalleryService.deleteGalleryItem(req.app.get('db') as Knex, galleryItemId)
+      res.status(204).send()
+    } catch (error) {
+      next(error)
+    }
+  }) as RequestHandler)
+
 export default galleryRouter
