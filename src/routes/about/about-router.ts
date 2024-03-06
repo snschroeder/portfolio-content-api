@@ -27,6 +27,8 @@ aboutRouter
       next(error)
     }
   }) as RequestHandler)
+
+  // Valid JWT auth required for PUT, DELETE, and POST
   .all(protectWithJWT)
   .put(jsonParser, (async (req: Request, res: Response, next: NextFunction) => {
     const { aboutId } = req.params
