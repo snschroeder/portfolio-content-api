@@ -19,6 +19,18 @@ const HomepageService = {
       'portfolio_description',
       'dust_callout',
       'dust_joke'
+    ]),
+
+  deleteHomepageItem: (db: Knex, id: string) => db('homepage')
+    .where({ id })
+    .del(),
+
+  postHomepageItem: (db: Knex, homepageItem: HomepageItem) => db('homepage')
+    .insert(homepageItem, [
+      'header',
+      'portfolio_description',
+      'dust_callout',
+      'dust_joke'
     ])
 }
 

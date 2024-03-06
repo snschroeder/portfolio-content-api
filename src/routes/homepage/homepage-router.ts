@@ -57,4 +57,38 @@ homepageRouter
     }
   }) as RequestHandler)
 
+  .delete((async (req: Request, res: Response, next: NextFunction) => {
+    const { homepageItemId } = req.params
+    try {
+      await HomepageService.deleteHomepageItem(req.app.get('db') as Knex, homepageItemId)
+      res.status(204).send()
+    } catch (error) {
+      next(error)
+    }
+  }) as RequestHandler)
+
+homepageRouter
+  .route('/')
+  .all(protectWithJWT)
+  .post(jsonParser, (async (req: Request, res: Response, next: NextFunction) => {
+    const homepageItem: HomepageItem = {
+      header: req.body.header,
+      portfolio_description: req.body.portfolio_description,
+      dust_callout: req.body.dust_callout,
+      dust_joke: req.body.dust_joke
+    }
+
+    let key: keyof HomepageItem
+    for (key in homepageItem) {
+      homepageItem[key] = xss(homepageItem[key])
+    }
+
+    try {
+      const postedHomepageItem = await HomepageService.postHomepageItem(req.app.get('db') as Knex, homepageItem)
+      res.status(201).json(postedHomepageItem)
+    } catch (error) {
+      next(error)
+    }
+  }) as RequestHandler)
+
 export default homepageRouter
