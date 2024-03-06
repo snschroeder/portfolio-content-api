@@ -5,7 +5,7 @@ const homepageSeed = [
     header: 'Hi there! My name is Scott.',
     portfolio_description: 'Welcome to my portfolio. Please feel free to look around if you would like to see what I\'ve been working on.',
     dust_callout: 'Oh, and please don\'t mind the dust, it seems I left a window open while I was away.',
-    dust_joke: 'Don\'t worry, though! Our tests have confirmed it is 73% asbestos free!',
+    dust_joke: 'Don\'t worry, though! Our tests have confirmed it is 73% asbestos free!'
   },
   {
     header: 'Howdy, welcome back!',

@@ -1,5 +1,8 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import express from 'express'
 import xss from 'xss'
+import { protectWithJWT } from '../../middleware/auth'
+
 import type {
   Request,
   Response,
@@ -26,6 +29,8 @@ galleryRouter
     }
   }) as RequestHandler)
 
+  // Valid JWT auth required for PUT, DELETE, and POST
+  .all(protectWithJWT)
   .put(jsonParser, (async (req: Request, res: Response, next: NextFunction) => {
     const { galleryItemId } = req.params
 
@@ -40,7 +45,6 @@ galleryRouter
     for (key in galleryItem) {
       galleryItem[key] = xss(galleryItem[key])
     }
-
     try {
       const updatedGalleryItem = await GalleryService.updateGalleryItem(
         req.app.get('db') as Knex,
@@ -66,6 +70,7 @@ galleryRouter
 
 galleryRouter
   .route('/')
+  .all(protectWithJWT)
   .post(jsonParser, (async (req: Request, res: Response, next: NextFunction) => {
     const galleryItem: GalleryItem = {
       title: req.body.title,
@@ -82,7 +87,6 @@ galleryRouter
         return
       }
     }
-
     try {
       const postedGalleryItem = await GalleryService.postGalleryItem(req.app.get('db') as Knex, galleryItem)
       res.status(201).json(postedGalleryItem)

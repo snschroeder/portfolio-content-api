@@ -2,6 +2,7 @@
 import express from 'express'
 import xss from 'xss'
 import { protectWithJWT } from '../../middleware/auth'
+
 import type {
   Request,
   Response,
