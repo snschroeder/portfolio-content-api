@@ -11,6 +11,13 @@ export interface GalleryItem {
   stack: string
 }
 
+export interface HomepageItem {
+  header: string
+  portfolio_description: string
+  dust_callout: string
+  dust_joke: string
+}
+
 declare global {
   namespace Express {
     interface Request {

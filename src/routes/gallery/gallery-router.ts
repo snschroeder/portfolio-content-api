@@ -51,7 +51,6 @@ galleryRouter
         galleryItemId,
         galleryItem
       )
-      console.log(updatedGalleryItem)
       res.status(201).json(updatedGalleryItem)
     } catch (error) {
       next(error)
