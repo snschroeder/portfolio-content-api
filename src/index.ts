@@ -2,6 +2,8 @@ import express from 'express'
 import knex from '../knex'
 import cors from 'cors'
 import helmet from 'helmet'
+import session from 'express-session'
+import { v4 as uuid } from 'uuid'
 import 'dotenv/config'
 
 import userRouter from './routes/user/user-router'
@@ -12,9 +14,11 @@ import homepageRouter from './routes/homepage/homepage-router'
 
 import errorHandler from './error-handler/error-handler'
 import { ServerError } from './error-handler/ServerError'
+import { SESSION_SECRET } from '../connection'
 
 const app = express()
 const port = process.env.PORT ?? 3000
+const apiVersion = 'v1'
 
 // =================== //
 // Middleware          //
@@ -24,16 +28,26 @@ app.use(helmet())
 app.use(cors())
 app.use(express.json())
 app.set('db', knex)
+app.use(
+  session({
+    genid: function (req) {
+      return uuid()
+    },
+    secret: SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true
+  })
+)
 
 // =================== //
 // Routes              //
 // =================== //
 
-app.use('/user', userRouter)
-app.use('/auth', authRouter)
-app.use('/about', aboutRouter)
-app.use('/gallery', galleryRouter)
-app.use('/homepage', homepageRouter)
+app.use(`/${apiVersion}/user`, userRouter)
+app.use(`/${apiVersion}/auth`, authRouter)
+app.use(`/${apiVersion}/about`, aboutRouter)
+app.use(`/${apiVersion}/gallery`, galleryRouter)
+app.use(`/${apiVersion}/homepage`, homepageRouter)
 
 // =================== //
 // Error Handling      //

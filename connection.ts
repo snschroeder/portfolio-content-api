@@ -17,3 +17,5 @@ export const testConnection = {
 export const NODE_ENV = process.env.NODE_ENV ?? 'development'
 
 export const JWT_SECRET = process.env.JWT_SECRET ?? 'dev-private-key'
+
+export const SESSION_SECRET = process.env.SESSION_SECRET ?? 'dev-session-secret'

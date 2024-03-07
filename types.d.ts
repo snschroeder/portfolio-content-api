@@ -18,6 +18,12 @@ export interface HomepageItem {
   dust_joke: string
 }
 
+declare module 'express-session' {
+  interface SessionData {
+    views: number | undefinded
+  }
+}
+
 declare global {
   namespace Express {
     interface Request {

@@ -20,6 +20,14 @@ const jsonParser = express.json()
 homepageRouter
   .route('/:homepageItemId')
   .get((async (req: Request, res: Response, next: NextFunction) => {
+    if (req.session.views !== undefined) {
+      req.session.views += 1
+      console.log(req.session)
+    } else {
+      req.session.views = 1
+      console.log(req.session)
+    }
+
     const { homepageItemId } = req.params
     try {
       const homepageItem = await HomepageService.getHomepageItem(req.app.get('db') as Knex, homepageItemId)
