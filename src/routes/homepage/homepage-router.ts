@@ -18,16 +18,26 @@ const homepageRouter = express.Router()
 const jsonParser = express.json()
 
 homepageRouter
+  .route('/')
+  .get((async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      if (req.session.views !== undefined) {
+        req.session.views += 1
+        const homepageItem = await HomepageService.getHomepageItemBySeq(req.app.get('db') as Knex, 2)
+        res.status(200).json(homepageItem)
+      } else {
+        req.session.views = 1
+        const homepageItem = await HomepageService.getHomepageItemBySeq(req.app.get('db') as Knex, 1)
+        res.status(200).json(homepageItem)
+      }
+    } catch (error) {
+      next(error)
+    }
+  }) as RequestHandler)
+
+homepageRouter
   .route('/:homepageItemId')
   .get((async (req: Request, res: Response, next: NextFunction) => {
-    if (req.session.views !== undefined) {
-      req.session.views += 1
-      console.log(req.session)
-    } else {
-      req.session.views = 1
-      console.log(req.session)
-    }
-
     const { homepageItemId } = req.params
     try {
       const homepageItem = await HomepageService.getHomepageItem(req.app.get('db') as Knex, homepageItemId)
