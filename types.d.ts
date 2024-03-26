@@ -18,6 +18,12 @@ export interface HomepageItem {
   dust_joke: string
 }
 
+export interface ContactItem {
+  name: string
+  email: string
+  inquiry: string
+}
+
 declare module 'express-session' {
   interface SessionData {
     views: number | undefinded

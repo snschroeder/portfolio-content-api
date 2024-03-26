@@ -11,6 +11,7 @@ import authRouter from './routes/auth/auth-router'
 import aboutRouter from './routes/about/about-router'
 import galleryRouter from './routes/gallery/gallery-router'
 import homepageRouter from './routes/homepage/homepage-router'
+import contactRouter from './routes/contact/contact-router'
 
 import errorHandler from './error-handler/error-handler'
 import { ServerError } from './error-handler/ServerError'
@@ -48,6 +49,7 @@ app.use(`/${apiVersion}/auth`, authRouter)
 app.use(`/${apiVersion}/about`, aboutRouter)
 app.use(`/${apiVersion}/gallery`, galleryRouter)
 app.use(`/${apiVersion}/homepage`, homepageRouter)
+app.use(`/${apiVersion}/contact`, contactRouter)
 
 // =================== //
 // Error Handling      //
